@@ -1,0 +1,26 @@
+{
+	"name": "koolkode/security",
+	"description": "KoolKode Security",
+	"keywords": ["koolkode", "security"],
+	"type": "library",
+	"license": "MIT",
+	"homepage": "https://github.com/koolkode/security",
+	"authors": [
+		{ "name": "Martin Schröder", "email": "m.schroeder2007@gmail.com" }
+	],
+	
+	"minimum-stability": "dev",
+	
+	"require": {
+		"php": ">=5.4.0",
+		"koolkode/http": "dev-master"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "4.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"KoolKode\\Security\\": "src/"
+		}
+	}
+}
