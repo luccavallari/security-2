@@ -11,16 +11,10 @@
 
 namespace KoolKode\Security;
 
-use KoolKode\Session\SessionInterface;
-
 /**
  * @author Martin Schröder
  */
 interface MutableSecurityContextInterface extends SecurityContextInterface
 {
 	public function setPrincipal(PrincipalInterface $principal);
-	
-	public function setSession(SessionInterface $session);
-	
-	public function removeSession();
 }

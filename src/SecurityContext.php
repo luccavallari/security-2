@@ -9,15 +9,8 @@
 * file that was distributed with this source code.
 */
 
-// FIXME: Decouple from container.
-// FIXME: SecurityContext and session must be coupled (replacing sessions is no good)!
-
 namespace KoolKode\Security;
 
-use KoolKode\Context\ContainerInterface;
-use KoolKode\Session\SessionInitializedEvent;
-use KoolKode\Session\TransientSession;
-use KoolKode\Session\SessionCloseEvent;
 use KoolKode\Session\SessionInterface;
 use KoolKode\Util\RandomGenerator;
 
@@ -28,31 +21,19 @@ class SecurityContext implements MutableSecurityContextInterface
 {
 	protected $principal;
 	protected $session;
+	protected $random;
 	
-	protected $container;
-	
-	public function __construct(ContainerInterface $container)
+	public function __construct(SessionInterface $session, RandomGenerator $random)
 	{
-		$this->container = $container;
+		$this->session = $session;
+		$this->random = $random;
 		
 		$this->principal = new AnonymousPrincipal();
-		$this->removeSession();
 	}
 	
 	public function getSession()
 	{
 		return $this->session;
-	}
-	
-	public function setSession(SessionInterface $session)
-	{
-		$this->session = $session;
-	}
-	
-	public function removeSession()
-	{
-		$this->session = $this->container->get('KoolKode\Session\TransientSession');	
-		$this->session->initialize();
 	}
 	
 	public function getPrincipal()
@@ -67,6 +48,6 @@ class SecurityContext implements MutableSecurityContextInterface
 	
 	public function getRandomGenerator()
 	{
-		return new RandomGenerator();
+		return $this->random;
 	}
 }
