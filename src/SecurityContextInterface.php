@@ -12,6 +12,7 @@
 namespace KoolKode\Security;
 
 use KoolKode\Session\SessionInterface;
+use KoolKode\Util\RandomGenerator;
 
 /**
  * Provides covenient access to most components of the security system.

@@ -19,6 +19,7 @@ use KoolKode\Session\SessionInitializedEvent;
 use KoolKode\Session\TransientSession;
 use KoolKode\Session\SessionCloseEvent;
 use KoolKode\Session\SessionInterface;
+use KoolKode\Util\RandomGenerator;
 
 /**
  * @author Martin Schröder

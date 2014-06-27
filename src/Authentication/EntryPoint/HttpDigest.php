@@ -48,7 +48,7 @@ class HttpDigest implements EntryPointInterface
 			'realm' => $this->auth->getRealm(),
 			'qop' => $this->auth->getQualityOfProtection(),
 			'opaque' => $this->auth->getOpaque(),
-			'nonce' => $this->auth->createNonce(),
+			'nonce' => $this->auth->createNonce($this->securityContext),
 		];
 		
 		if($token->isStale())

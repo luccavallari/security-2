@@ -16,7 +16,6 @@ use KoolKode\Security\Authentication\EntryPoint\HttpDigest;
 use KoolKode\Security\Authentication\Token\HttpDigestToken;
 use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\DigestPrincipalProviderInterface;
-use KoolKode\Security\RandomGenerator;
 use KoolKode\Security\SecurityException;
 use KoolKode\Security\SecurityContextInterface;
 
@@ -42,8 +41,6 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 	const QOP_AUTH_INT = 'auth-int';
 	
 	protected $qop = self::QOP_AUTH;
-	
-	protected $random;
 	
 	protected $nonceTracker;
 	
@@ -84,16 +81,11 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 	
 	public function getNonceTracker() { }
 	
-	public function createNonce()
+	public function createNonce(SecurityContextInterface $context)
 	{
 		if($this->nonceTracker === NULL)
 		{
-			if($this->random === NULL)
-			{
-				$this->random = new RandomGenerator();
-			}
-			
-			return bin2hex($this->random->generateRandom(18));
+			return bin2hex($context->getRandomGenerator()->generateRandom(32));
 		}
 		
 		$this->nonceTracker->initializeTracker();
