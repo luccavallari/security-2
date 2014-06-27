@@ -16,6 +16,13 @@ namespace KoolKode\Security;
  */
 abstract class SecurityUtil
 {
+	/**
+	 * Perform a timing-safe string comparison.
+	 * 
+	 * @param string $safe Safe string value.
+	 * @param string $user User-supplied value for comparsion.
+	 * @return boolean
+	 */
 	public static function timingSafeEquals($safe, $user)
 	{
 		$safe .= chr(0);

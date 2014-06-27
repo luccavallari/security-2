@@ -12,9 +12,17 @@
 namespace KoolKode\Security;
 
 /**
+ * Security context with mutable principal.
+ * 
  * @author Martin Schröder
  */
 interface MutableSecurityContextInterface extends SecurityContextInterface
 {
+	/**
+	 * Set the new principal and return the previous principal.
+	 * 
+	 * @param PrincipalInterface $principal
+	 * @return PrincipalInterface
+	 */
 	public function setPrincipal(PrincipalInterface $principal);
 }

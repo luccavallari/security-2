@@ -15,7 +15,7 @@ use KoolKode\Session\SessionInterface;
 use KoolKode\Util\RandomGenerator;
 
 /**
- * Provides covenient access to most components of the security system.
+ * Provides covenient access to components of the security system.
  * 
  * @author Martin Schröder
  */

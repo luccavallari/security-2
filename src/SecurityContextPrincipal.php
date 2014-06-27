@@ -16,7 +16,7 @@ namespace KoolKode\Security;
  * 
  * @author Martin Schröder
  */
-class DelegatePrincipal implements PrincipalInterface
+class SecurityContextPrincipal implements PrincipalInterface
 {
 	/**
 	 * The principal being decorated.
