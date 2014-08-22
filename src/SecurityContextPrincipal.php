@@ -35,6 +35,13 @@ class SecurityContextPrincipal implements PrincipalInterface
 		$this->context = $context;
 	}
 	
+	public function __debugInfo()
+	{
+		return [
+			'principal' => $this->context->getPrincipal()	
+		];
+	}
+	
 	/**
 	 * Get the security context being delegated to.
 	 * 
