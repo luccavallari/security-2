@@ -322,16 +322,21 @@ class HttpDigestToken extends AbstractToken
 		
 		$tmp = new \SplTempFileObject();
 		$fp = $tmp->openFile('wb', false);
-		flock($fp, LOCK_EX);
-	
-		while($chunk = $in->read())
+		
+		try
 		{
-			hash_update($hash, $chunk);
-			fwrite($fp, $chunk);
+			flock($fp, LOCK_EX);
+		
+			while(false !== ($chunk = $in->read()))
+			{
+				hash_update($hash, $chunk);
+				fwrite($fp, $chunk);
+			}
 		}
-	
-		$in->close();
-		@fclose($fp);
+		finally
+		{
+			@fclose($fp);
+		}
 		
 		$request->setEntity(new StreamEntity($tmp->openFile('rb', false)));
 	
