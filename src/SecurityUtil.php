@@ -25,6 +25,12 @@ abstract class SecurityUtil
 	 */
 	public static function timingSafeEquals($safe, $user)
 	{
+		// Use builtin has comparison function available when running on PHP 5.6+
+		if(function_exists('hash_equals'))
+		{
+			return hash_equals((string)$safe, (string)$user);
+		}
+		
 		$safe .= chr(0);
 		$user .= chr(0);
 
