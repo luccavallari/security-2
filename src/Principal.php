@@ -19,13 +19,18 @@ namespace KoolKode\Security;
 class Principal implements PrincipalInterface
 {
 	protected $identity;
+	
 	protected $name;
+	
+	protected $aggregatedPrincipals = [];
+	
 	protected $privileged;
 	
-	public function __construct($identity, $name, $privileged = false)
+	public function __construct($identity, $name, array $aggregatedPrincipals = [], $privileged = false)
 	{
 		$this->identity = (string)$identity;
 		$this->name = (string)$name;
+		$this->aggregatedPrincipals = $aggregatedPrincipals;
 		$this->privileged = $privileged ? true : false;
 	}
 	
@@ -37,6 +42,11 @@ class Principal implements PrincipalInterface
 	public function getName()
 	{
 		return $this->name;
+	}
+	
+	public function getAggregatedPrincipals()
+	{
+		return array_merge([$this], $this->aggregatedPrincipals);
 	}
 	
 	public function isAnonymous()

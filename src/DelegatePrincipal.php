@@ -56,6 +56,18 @@ class DelegatePrincipal implements PrincipalInterface
 		return $this->principal->getName();
 	}
 	
+	public function getAggregatedPrincipals()
+	{
+		$aggregate = $this->principal->getAggregatedPrincipals();
+		
+		if(false !== ($index = array_search($this->principal, $aggregate, true)))
+		{
+			unset($aggregate[$index]);
+		}
+		
+		return array_merge([$this], $aggregate);
+	}
+	
 	public function isAnonymous()
 	{
 		return $this->principal->isAnonymous();

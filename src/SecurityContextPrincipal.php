@@ -62,6 +62,11 @@ class SecurityContextPrincipal implements PrincipalInterface
 		return $this->context->getPrincipal()->getName();
 	}
 	
+	public function getAggregatedPrincipals()
+	{
+		return $this->context->getPrincipal()->getAggregatedPrincipals();
+	}
+	
 	public function isAnonymous()
 	{
 		return $this->context->getPrincipal()->isAnonymous();

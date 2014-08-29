@@ -28,6 +28,11 @@ class AnonymousPrincipal implements PrincipalInterface
 		return '';
 	}
 	
+	public function getAggregatedPrincipals()
+	{
+		return [$this];
+	}
+	
 	public function isAnonymous()
 	{
 		return true;

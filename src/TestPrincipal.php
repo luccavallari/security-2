@@ -20,9 +20,9 @@ class TestPrincipal extends Principal
 {
 	protected $password;
 	
-	public function __construct($identity, $password, $name, $privileged = false)
+	public function __construct($identity, $password, $name, array $aggregatedPrincipals = [], $privileged = false)
 	{
-		parent::__construct($identity, $name, $privileged);
+		parent::__construct($identity, $name, $aggregatedPrincipals, $privileged);
 		
 		$this->password = (string)$password;
 	}

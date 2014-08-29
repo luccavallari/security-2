@@ -33,6 +33,13 @@ interface PrincipalInterface
 	public function getName();
 	
 	/**
+	 * Get all aggregated principals (user groups for example) associated with the principal.
+	 * 
+	 * @return array<PrincipalInterface>
+	 */
+	public function getAggregatedPrincipals();
+	
+	/**
 	 * Check if this principal is anonymous.
 	 * 
 	 * @return boolean
