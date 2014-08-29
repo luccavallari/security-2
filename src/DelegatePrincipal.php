@@ -46,16 +46,25 @@ class DelegatePrincipal implements PrincipalInterface
 		return $this->principal;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getIdentity()
 	{
 		return $this->principal->getIdentity();
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getName()
 	{
 		return $this->principal->getName();
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getAggregatedPrincipals()
 	{
 		$aggregate = $this->principal->getAggregatedPrincipals();
@@ -68,11 +77,17 @@ class DelegatePrincipal implements PrincipalInterface
 		return array_merge([$this], $aggregate);
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isAnonymous()
 	{
 		return $this->principal->isAnonymous();
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isPrivileged()
 	{
 		return $this->principal->isPrivileged();

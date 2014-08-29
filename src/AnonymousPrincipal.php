@@ -18,26 +18,41 @@ namespace KoolKode\Security;
  */
 class AnonymousPrincipal implements PrincipalInterface
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getIdentity()
 	{
 		return '';
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getName()
 	{
 		return '';
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getAggregatedPrincipals()
 	{
 		return [$this];
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isAnonymous()
 	{
 		return true;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isPrivileged()
 	{
 		return false;

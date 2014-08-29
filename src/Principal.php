@@ -34,26 +34,51 @@ class Principal implements PrincipalInterface
 		$this->privileged = $privileged ? true : false;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getIdentity()
 	{
 		return $this->identity;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getAggregatedPrincipals()
 	{
-		return array_merge([$this], $this->aggregatedPrincipals);
+		$principals = [$this->identity => $this];
+		
+		foreach($this->aggregatedPrincipals as $aggregate)
+		{
+			foreach($aggregate->getAggregatedPrincipals() as $principal)
+			{
+				$principals[$principal->getIdentity()] = $principal;
+			}
+		}
+		
+		return array_values($principals);
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isAnonymous()
 	{
 		return false;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isPrivileged()
 	{
 		return $this->privileged;
