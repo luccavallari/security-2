@@ -112,7 +112,7 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 	{
 		if($this->nonceTracker === NULL)
 		{
-			return bin2hex($context->getRandomGenerator()->generateRandom($this->nonceByteCount));
+			return $context->getRandomGenerator()->generateHexString($this->nonceByteCount);
 		}
 		
 		$this->nonceTracker->initializeTracker();

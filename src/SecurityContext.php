@@ -12,7 +12,7 @@
 namespace KoolKode\Security;
 
 use KoolKode\Session\SessionInterface;
-use KoolKode\Util\RandomGenerator;
+use KoolKode\Util\RandomGeneratorInterface;
 
 /**
  * Basic security context implementation that can be mutated.
@@ -27,7 +27,7 @@ class SecurityContext implements MutableSecurityContextInterface
 	
 	protected $random;
 	
-	public function __construct(SessionInterface $session, RandomGenerator $random)
+	public function __construct(SessionInterface $session, RandomGeneratorInterface $random)
 	{
 		$this->session = $session;
 		$this->random = $random;

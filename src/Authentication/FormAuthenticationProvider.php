@@ -108,7 +108,7 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 		
 		$this->failedLogin = false;
 		$this->username = $token->getUsername();
-		$this->guard = bin2hex($context->getRandomGenerator()->generateRandom(32));
+		$this->guard = $context->getRandomGenerator()->generateHexString(16);
 		
 		$path = trim($request->getUri()->getPath(false), '/');
 		$loginPath = trim((new Uri($this->getLoginUri()))->getPath(false), '/');

@@ -12,7 +12,7 @@
 namespace KoolKode\Security;
 
 use KoolKode\Session\SessionInterface;
-use KoolKode\Util\RandomGenerator;
+use KoolKode\Util\RandomGeneratorInterface;
 
 /**
  * Provides covenient access to components of the security system.
@@ -39,7 +39,7 @@ interface SecurityContextInterface
 	/**
 	 * Get a random generator to be used in creating nonces etc.
 	 * 
-	 * @return RandomGenerator
+	 * @return RandomGeneratorInterface
 	 */
 	public function getRandomGenerator();
 }
