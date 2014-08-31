@@ -81,6 +81,16 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 		return $this->failedLogin;
 	}
 	
+	public function setGuardByteCount($byteCount)
+	{
+		$this->guardByteCount = max(4, (int)$byteCount);
+	}
+	
+	public function setGuardStrength($strength)
+	{
+		$this->guardStrength = max(RandomGeneratorInterface::STRENGTH_LOW, (int)$strength);
+	}
+	
 	/**
 	 * {@inheritdoc}
 	 */
