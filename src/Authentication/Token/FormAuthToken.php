@@ -86,6 +86,9 @@ class FormAuthToken extends AbstractToken
 		return $this->guarded;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function updateCredentials(HttpRequest $request)
 	{
 		$this->setStatus(self::AUTHENTICATION_NEEDED);

@@ -37,6 +37,9 @@ class HttpBasic implements EntryPointInterface
 		$this->securityContext = $context;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function startAuthentication(TokenInterface $token, HttpRequest $request, HttpResponse $response)
 	{
 		if(!$token instanceof HttpBasicToken)

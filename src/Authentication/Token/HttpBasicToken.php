@@ -65,6 +65,9 @@ class HttpBasicToken extends AbstractToken
 		return $this->password;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function updateCredentials(HttpRequest $request)
 	{
 		$this->setStatus(self::NO_CREDENTIALS);

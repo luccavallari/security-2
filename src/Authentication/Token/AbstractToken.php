@@ -19,13 +19,20 @@ use KoolKode\Security\PrincipalInterface;
 abstract class AbstractToken implements TokenInterface
 {
 	protected $status = self::NO_CREDENTIALS;
+	
 	protected $principal;
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getStatus()
 	{
 		return $this->status;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setStatus($status)
 	{
 		switch($status)
@@ -44,11 +51,17 @@ abstract class AbstractToken implements TokenInterface
 		}
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getPrincipal()
 	{
 		return $this->principal;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function setPrincipal(PrincipalInterface $principal)
 	{
 		$this->principal = $principal;

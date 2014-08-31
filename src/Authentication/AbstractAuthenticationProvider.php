@@ -13,6 +13,8 @@ namespace KoolKode\Security\Authentication;
 
 use KoolKode\Http\HttpRequest;
 use KoolKode\Http\HttpResponse;
+use KoolKode\Security\Authentication\EntryPoint\EntryPointInterface;
+use KoolKode\Security\PrincipalProviderInterface;
 use KoolKode\Security\SecurityContextInterface;
 
 /**
@@ -23,24 +25,41 @@ abstract class AbstractAuthenticationProvider implements AuthenticationProviderI
 	private $entryPoint;
 	
 	private $requestInterceptors = [];
-		
+	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getProviderName()
 	{
 		return get_class($this);
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getLevelOfTrust()
 	{
 		return self::DEFAULT_LEVEL_OF_TRUST;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function matchesRequest(HttpRequest $request)
 	{
 		return true;
 	}
 	
+	/**
+	 * Get the principal provider used by the authentication provider.
+	 * 
+	 * @return PrincipalProviderInterface
+	 */
 	public abstract function getPrincipalProvider();
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getEntryPoint(SecurityContextInterface $context)
 	{
 		if($this->entryPoint === NULL)
@@ -51,6 +70,12 @@ abstract class AbstractAuthenticationProvider implements AuthenticationProviderI
 		return $this->entryPoint;
 	}
 	
+	/**
+	 * Create the entry point required by this auth provider.
+	 * 
+	 * @param SecurityContextInterface $context
+	 * @return EntryPointInterface
+	 */
 	protected abstract function createEntryPoint(SecurityContextInterface $context);
 	
 	public function addRequestInterceptor(callable $interceptor)
@@ -58,6 +83,9 @@ abstract class AbstractAuthenticationProvider implements AuthenticationProviderI
 		$this->requestInterceptors[] = $interceptor;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function interceptRequest(SecurityContextInterface $context, HttpRequest $request)
 	{
 		foreach($this->requestInterceptors as $interceptor)
@@ -69,5 +97,8 @@ abstract class AbstractAuthenticationProvider implements AuthenticationProviderI
 		}
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function processResponse(SecurityContextInterface $context, HttpRequest $request, HttpResponse $response) { }
 }

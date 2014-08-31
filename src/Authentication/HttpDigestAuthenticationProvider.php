@@ -42,15 +42,28 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 	
 	protected $qop = self::QOP_AUTH;
 	
+	protected $nonceByteCount = 16;
+	
 	protected $nonceTracker;
 	
+	/**
+	 * Get the realm being used with HTTP authentication.
+	 * 
+	 * @return string
+	 */
 	public abstract function getRealm();
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function createEntryPoint(SecurityContextInterface $context)
 	{
 		return new HttpDigest($this, $context);
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getToken(SecurityContextInterface $context)
 	{
 		return new HttpDigestToken($this, $context);
@@ -79,13 +92,27 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 		}
 	}
 	
+	public function setNonceByteCount($count)
+	{
+		$this->nonceByteCount = max(0, (int)$count);
+	}
+	
+	/**
+	 * @return NonceTrackerInterface
+	 */
 	public function getNonceTracker() { }
 	
+	/**
+	 * Create a one-time nonce value (will generate a random nonce when no nonce tracker is being used).
+	 * 
+	 * @param SecurityContextInterface $context
+	 * @return string
+	 */
 	public function createNonce(SecurityContextInterface $context)
 	{
 		if($this->nonceTracker === NULL)
 		{
-			return bin2hex($context->getRandomGenerator()->generateRandom(32));
+			return bin2hex($context->getRandomGenerator()->generateRandom($this->nonceByteCount));
 		}
 		
 		$this->nonceTracker->initializeTracker();
@@ -93,6 +120,9 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 		return $this->nonceTracker->createNonce();
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function authenticate(SecurityContextInterface $context, TokenInterface $token, HttpRequest $request)
 	{
 		if(!$token instanceof HttpDigestToken)

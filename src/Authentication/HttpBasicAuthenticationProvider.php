@@ -24,18 +24,32 @@ use KoolKode\Security\SecurityContextInterface;
  */
 abstract class HttpBasicAuthenticationProvider extends AbstractAuthenticationProvider
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function createEntryPoint(SecurityContextInterface $context)
 	{
 		return new HttpBasic($this, $context);
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getToken(SecurityContextInterface $context)
 	{
 		return new HttpBasicToken($this, $context);
 	}
 	
+	/**
+	 * Get the realm being used with HTTP auuthentication.
+	 * 
+	 * @return string
+	 */
 	public abstract function getRealm();
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function authenticate(SecurityContextInterface $context, TokenInterface $token, HttpRequest $request)
 	{
 		if(!$token instanceof HttpBasicToken)

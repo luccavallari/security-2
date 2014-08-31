@@ -76,11 +76,17 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 		return $this->failedLogin;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function createEntryPoint(SecurityContextInterface $context)
 	{
 		return new FormAuth($this, $context);
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function getToken(SecurityContextInterface $context)
 	{
 		return new FormAuthToken($this, $context);
@@ -90,6 +96,9 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 	
 	public abstract function getLogoutUri();
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function authenticate(SecurityContextInterface $context, TokenInterface $token, HttpRequest $request)
 	{
 		if(!$token instanceof FormAuthToken)

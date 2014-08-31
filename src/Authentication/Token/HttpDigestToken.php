@@ -172,6 +172,9 @@ class HttpDigestToken extends AbstractToken
 		$this->stale = $stale ? true : false;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function updateCredentials(HttpRequest $request)
 	{
 		$this->setStatus(self::NO_CREDENTIALS);
