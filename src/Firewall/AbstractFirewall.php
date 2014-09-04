@@ -211,7 +211,7 @@ abstract class AbstractFirewall implements FirewallInterface
 	{
 		foreach($this->authenticatedTokens as $i => $token)
 		{
-			$this->authenticationProviders[$i]->processResponse($this->securityContext, $request, $response);
+			$this->authenticationProviders[$i]->processResponse($this->securityContext, $token, $request, $response);
 		}
 		
 		foreach(clone $this->responseInterceptors as $interceptor)

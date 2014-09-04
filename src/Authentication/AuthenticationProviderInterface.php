@@ -85,12 +85,11 @@ interface AuthenticationProviderInterface
 	 * Post-process an HTTP response as needed.
 	 * 
 	 * @param SecurityContextInterface $context
+	 * @param TokenInterface $token
 	 * @param HttpRequest $request
 	 * @param HttpResponse $response
-	 * 
-	 * @deprecated
 	 */
-	public function processResponse(SecurityContextInterface $context, HttpRequest $request, HttpResponse $response);
+	public function processResponse(SecurityContextInterface $context, TokenInterface $token, HttpRequest $request, HttpResponse $response);
 
 	/**
 	 * Try to authenticate the given token.

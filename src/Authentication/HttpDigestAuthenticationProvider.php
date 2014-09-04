@@ -12,7 +12,9 @@
 namespace KoolKode\Security\Authentication;
 
 use KoolKode\Http\HttpRequest;
+use KoolKode\Http\HttpResponse;
 use KoolKode\Security\Authentication\EntryPoint\HttpDigest;
+use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\Authentication\Token\HttpDigestToken;
 use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\DigestPrincipalProviderInterface;
@@ -181,5 +183,25 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 		$token->setStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
 		
 		$provider->notifyPrinipalFound($principal);
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function processResponse(SecurityContextInterface $context, TokenInterface $token, HttpRequest $request, HttpResponse $response)
+	{
+		if(!$token instanceof HttpDigestToken)
+		{
+			throw new SecurityException(sprintf('Token %s not supported by provider %s', get_class($token), get_class($this)));
+		}
+		
+		if($token->getStatus() == TokenInterface::AUTHENTICATION_SUCCESSFUL)
+		{
+			$response->addHeader('Authentication-Info', sprintf(
+				'nextnonce="%s", qop=%s',
+				$token->getNonce(),
+				$token->getQualityOfProtection()
+			));
+		}
 	}
 }

@@ -14,6 +14,7 @@ namespace KoolKode\Security\Authentication;
 use KoolKode\Http\HttpRequest;
 use KoolKode\Http\HttpResponse;
 use KoolKode\Security\Authentication\EntryPoint\EntryPointInterface;
+use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\PrincipalProviderInterface;
 use KoolKode\Security\SecurityContextInterface;
 
@@ -100,5 +101,5 @@ abstract class AbstractAuthenticationProvider implements AuthenticationProviderI
 	/**
 	 * {@inheritdoc}
 	 */
-	public function processResponse(SecurityContextInterface $context, HttpRequest $request, HttpResponse $response) { }
+	public function processResponse(SecurityContextInterface $context, TokenInterface $token, HttpRequest $request, HttpResponse $response) { }
 }
