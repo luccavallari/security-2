@@ -16,7 +16,6 @@ use KoolKode\Http\HttpResponse;
 use KoolKode\Security\Authentication\EntryPoint\HttpDigest;
 use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\Authentication\Token\HttpDigestToken;
-use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\DigestPrincipalProviderInterface;
 use KoolKode\Security\SecurityException;
 use KoolKode\Security\SecurityContextInterface;
