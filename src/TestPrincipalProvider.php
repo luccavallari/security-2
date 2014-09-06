@@ -81,7 +81,7 @@ class TestPrincipalProvider implements NtlmPrincipalProviderInterface
 		{
 			if($principal->getIdentity() === $identity)
 			{
-				return hash('md4', iconv('UTF-8', 'UTF-16LE', $principal->getPassword()));
+				return hash('md4', iconv('UTF-8', 'UTF-16LE', $principal->getPassword()), true);
 			}
 		}
 	}
