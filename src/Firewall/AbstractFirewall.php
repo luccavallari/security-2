@@ -90,7 +90,7 @@ abstract class AbstractFirewall implements FirewallInterface
 		
 		for($size = count($this->authenticationProviders), $i = 0; $i < $size; $i++)
 		{
-			if($this->authenticationProviders[$i]->getLevelOfTruts() < $level)
+			if($this->authenticationProviders[$i]->getLevelOfTrust() < $level)
 			{
 				array_splice($this->authenticationProviders, $i, 0, [$provider]);
 				
