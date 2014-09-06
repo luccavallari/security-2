@@ -72,6 +72,11 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 		return new HttpDigestToken($this, $context);
 	}
 	
+	public function getLevelOfTrust()
+	{
+		return self::DEFAULT_LEVEL_OF_TRUST + 10;
+	}
+	
 	public function getOpaque()
 	{
 		return md5($this->getRealm());

@@ -86,6 +86,18 @@ abstract class AbstractFirewall implements FirewallInterface
 	
 	public function registerAuthenticationProvider(AuthenticationProviderInterface $provider)
 	{
+		$level = $provider->getLevelOfTrust();
+		
+		for($size = count($this->authenticationProviders), $i = 0; $i < $size; $i++)
+		{
+			if($this->authenticationProviders[$i]->getLevelOfTruts() < $level)
+			{
+				array_splice($this->authenticationProviders, $i, 0, [$provider]);
+				
+				return;
+			}
+		}
+		
 		$this->authenticationProviders[] = $provider;
 	}
 	

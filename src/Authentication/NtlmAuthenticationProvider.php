@@ -32,6 +32,11 @@ abstract class NtlmAuthenticationProvider extends AbstractAuthenticationProvider
 		return new NtlmAuthToken($this, $context);
 	}
 	
+	public function getLevelOfTrust()
+	{
+		return self::DEFAULT_LEVEL_OF_TRUST + 5;
+	}
+	
 	public function createChallenge(SecurityContextInterface $context)
 	{
 		// FIXME: Need to create (and store!) a dynamic challenge... could use Session for storage.
