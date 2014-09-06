@@ -425,12 +425,12 @@ class NtlmAuthToken extends AbstractToken
 	
 	public function computeMd4($input)
 	{
-		return pack('H*', hash('md4', $input));
+		return hash('md4', $input, true);
 	}
 	
 	public function computeHmacMd5($key, $input)
 	{
-		return pack('H*', hash_hmac('md5', $input, $key));
+		return hash_hmac('md5', $input, $key, true);
 	}
 	
 	protected function hasAnyFlag($flags)

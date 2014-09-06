@@ -16,7 +16,7 @@ namespace KoolKode\Security;
  * 
  * @author Martin Schröder
  */
-class TestPrincipalProvider implements DigestPrincipalProviderInterface
+class TestPrincipalProvider implements NtlmPrincipalProviderInterface
 {
 	protected $principals = [];
 	
@@ -30,6 +30,9 @@ class TestPrincipalProvider implements DigestPrincipalProviderInterface
 		$this->principals[$principal->getIdentity()] = $principal;
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function findPrincipal($identity)
 	{
 		foreach($this->principals as $principal)
@@ -41,6 +44,9 @@ class TestPrincipalProvider implements DigestPrincipalProviderInterface
 		}
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function findPrincipalUsingPassword($identity, $password)
 	{
 		foreach($this->principals as $principal)
@@ -52,6 +58,9 @@ class TestPrincipalProvider implements DigestPrincipalProviderInterface
 		}
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function findPrincipalHA1($identity, $realm)
 	{
 		foreach($this->principals as $principal)
@@ -63,7 +72,27 @@ class TestPrincipalProvider implements DigestPrincipalProviderInterface
 		}
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function findPrincipalMD4($identity, $domain)
+	{
+		foreach($this->principals as $principal)
+		{
+			if($principal->getIdentity() === $identity)
+			{
+				return hash('md4', iconv('UTF-8', 'UTF-16LE', $principal->getPassword()));
+			}
+		}
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function notifyPrinipalFound(PrincipalInterface $principal) { }
 	
+	/**
+	 * {@inheritdoc}
+	 */
 	public function notifyPrincipalNotFound($identity) { }
 }

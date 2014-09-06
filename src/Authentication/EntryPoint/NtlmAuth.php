@@ -42,15 +42,15 @@ class NtlmAuth implements EntryPointInterface
 		$response->setStatus(Http::CODE_UNAUTHORIZED);
 		$response->setReason(Http::getReason(Http::CODE_UNAUTHORIZED));
 		
-		if($token->isMessage1())
-		{
-			$response->addHeader('WWW-Authenticate', 'NTLM');
-		}
-		else
+		if($token->isMessage3())
 		{
 			$message = $token->getChallengeMessage($this->provider->createChallenge($this->context));
 			
 			$response->addHeader('WWW-Authenticate', sprintf('NTLM %s', base64_encode($message)));
+		}
+		else
+		{
+			$response->addHeader('WWW-Authenticate', 'NTLM');
 		}
 	}
 }
