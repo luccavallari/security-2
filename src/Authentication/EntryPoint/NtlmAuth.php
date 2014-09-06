@@ -42,7 +42,7 @@ class NtlmAuth implements EntryPointInterface
 		$response->setStatus(Http::CODE_UNAUTHORIZED);
 		$response->setReason(Http::getReason(Http::CODE_UNAUTHORIZED));
 		
-		if($token->isMessage3())
+		if($token->isMessage1())
 		{
 			$message = $token->getChallengeMessage($this->provider->createChallenge($this->context));
 			
