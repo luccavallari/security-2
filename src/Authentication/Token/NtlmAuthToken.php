@@ -304,6 +304,8 @@ class NtlmAuthToken extends AbstractToken
 			return;
 		}
 		
+		$this->setStatus(self::AUTHENTICATION_NEEDED);
+		
 		$auth = @base64_decode($parts[1]);
 		
 		if(self::NTLM_HEADER !== substr($auth, 0, 8))
@@ -316,36 +318,37 @@ class NtlmAuthToken extends AbstractToken
 		// Unpack the message type sent by the client, must be one of 1 or 3.
 		$type = (int)$this->readUnsignedLong($this->auth, 8);
 		
-		switch($type)
+		if(1 == $type)
 		{
-			case 1:
-				$this->type = 1;
-				$this->flags = (int)$this->readUnsignedLong($this->auth, 12);
-			case 3:
-				$this->type = 3;
-				
-				$this->domain = $this->readSecurityBuffer($this->auth, 28);
-				$this->username = $this->readSecurityBuffer($this->auth, 36);
-				$this->workstation = $this->readSecurityBuffer($this->auth, 44);
-				
-				if(false !== strpos($this->username, '@'))
-				{
-					$tmp = explode('@', $this->username, 2);
-					$this->username = trim($tmp[0]);
-					$this->domain = trim($tmp[1]);
-				}
-				
-				$ntlm = $this->readSecurityBuffer($this->auth, 20, false);
-				
-				$this->clientHash = (string)substr($ntlm, 0, 16);
-				$this->clientBlob = (string)substr($ntlm, 16);
+			$this->type = 1;
+			$this->flags = (int)$this->readUnsignedLong($this->auth, 12);
 		}
-		
-		$this->setStatus(self::AUTHENTICATION_NEEDED);
+		elseif(3 == $type)
+		{
+			$this->type = 3;
+			
+			$this->domain = $this->readSecurityBuffer($this->auth, 28);
+			$this->username = $this->readSecurityBuffer($this->auth, 36);
+			$this->workstation = $this->readSecurityBuffer($this->auth, 44);
+			
+			if(false !== strpos($this->username, '@'))
+			{
+				$tmp = explode('@', $this->username, 2);
+				$this->username = trim($tmp[0]);
+				$this->domain = trim($tmp[1]);
+			}
+			
+			$ntlm = $this->readSecurityBuffer($this->auth, 20, false);
+			
+			$this->clientHash = (string)substr($ntlm, 0, 16);
+			$this->clientBlob = (string)substr($ntlm, 16);
+		}
 	}
 	
 	public function getChallengeMessage($challenge)
 	{
+		$cflags = (int)$this->readUnsignedLong($this->auth, 12);
+		
 		$cdomain = $this->readSecurityBuffer($this->auth, 16);
 		$ctarget = $this->readSecurityBuffer($this->auth, 24);
 		
@@ -397,17 +400,17 @@ class NtlmAuthToken extends AbstractToken
 		// Client nonce, useful in replay-attack prevention.
 		// 	$cnonce = substr($this->clientBlob, 16, 8);
 	
-		if(!SecurityUtil::timingSafeEquals('admin', $username))
+		if(!SecurityUtil::timingSafeEquals($username, $this->username))
 		{
 			return false;
 		}
 		
-		if(!SecurityUtil::timingSafeEquals('KoolKode', $this->provider->getDomain()))
+		if(!SecurityUtil::timingSafeEquals($this->provider->getDomain(), $this->domain))
 		{
 			return false;
 		}
 		
-		$ntlmhash = $this->computeHmacMd5($hash, $this->encodeUtf16(strtoupper($username) . $domain));
+		$ntlmhash = $this->computeHmacMd5($hash, $this->encodeUtf16(strtoupper($this->username) . $this->domain));
 		$hash = (string)$this->computeHmacMd5($ntlmhash, $challenge . $this->clientBlob);
 		
 		if(!SecurityUtil::timingSafeEquals($hash, $this->clientHash))
