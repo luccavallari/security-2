@@ -18,7 +18,7 @@ use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\SecurityContextInterface;
 use KoolKode\Security\SecurityException;
 
-class NtlmAuthenticationProvider extends AbstractAuthenticationProvider
+abstract class NtlmAuthenticationProvider extends AbstractAuthenticationProvider
 {
 	public abstract function getDomain();
 	
