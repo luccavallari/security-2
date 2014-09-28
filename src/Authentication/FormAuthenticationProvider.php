@@ -146,59 +146,64 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 		
 		if($isLogin)
 		{
-			$sdata = (array)$session->get($this->getKey(), NULL);
-			$sdata[self::SESSION_GUARD] = $this->guard;
-			
-			$session->set($this->getKey(), $sdata);
-			
-			if($request->isPost(false))
+			try
 			{
-				$identity = $token->getUsername();
-				$password = $token->getPassword();
-				
-				// Fetch user independent of guard in order to prevent leakage of timing information.
-				$principal = $this->getPrincipalProvider()->findPrincipalUsingPassword($identity, $password);
-				
-				// Invalidate when guard fails.
-				if(!$token->isGuarded())
+				if($request->isPost(false))
 				{
-					$principal = NULL;
-				}
-				
-				if($principal !== NULL)
-				{
-					$session = $context->getSession();
-					$data = (array)$session->get($this->getKey(), NULL);
+					$identity = $token->getUsername();
+					$password = $token->getPassword();
 					
-					$data[self::SESSION_IDENTITY] = (string)$principal->getIdentity();
-					$session->set($this->getKey(), $data);
+					// Fetch user independent of guard in order to prevent leakage of timing information.
+					$principal = $this->getPrincipalProvider()->findPrincipalUsingPassword($identity, $password);
 					
-					if(array_key_exists(self::SESSION_URI, $data))
+					// Invalidate when guard fails.
+					if(!$token->isGuarded())
 					{
-						$uri = $data[self::SESSION_URI];
-						
-						unset($data[self::SESSION_URI]);
-						$session->set($this->getKey(), $data);
-						
-						$response = new HttpResponse(Http::REDIRECT_TEMPORARY);
-						$response->setHeader('Location', $uri);
-							
-						return $response;
+						$principal = NULL;
 					}
 					
-					$token->setPrincipal($principal);
-					$token->setStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
+					if($principal !== NULL)
+					{
+						$session = $context->getSession();
+						$data = (array)$session->get($this->getKey(), NULL);
+						
+						$data[self::SESSION_IDENTITY] = (string)$principal->getIdentity();
+						$session->set($this->getKey(), $data);
+						
+						if(array_key_exists(self::SESSION_URI, $data))
+						{
+							$uri = $data[self::SESSION_URI];
+							
+							unset($data[self::SESSION_URI]);
+							$session->set($this->getKey(), $data);
+							
+							$response = new HttpResponse(Http::REDIRECT_TEMPORARY);
+							$response->setHeader('Location', $uri);
+								
+							return $response;
+						}
+						
+						$token->setPrincipal($principal);
+						$token->setStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
+						
+						return;
+					}
 					
-					return;
+					$this->failedLogin = true;
 				}
 				
-				$this->failedLogin = true;
+				$token->setPrincipal(new AnonymousPrincipal());
+				$token->setStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
+				
+				return;
 			}
-			
-			$token->setPrincipal(new AnonymousPrincipal());
-			$token->setStatus(TokenInterface::AUTHENTICATION_SUCCESSFUL);
-			
-			return;
+			finally
+			{
+				$data = (array)$session->get($this->getKey(), []);
+				$data[self::SESSION_GUARD] = $this->guard;
+				
+				$session->set($this->getKey(), $data);
+			}
 		}
 	}
 }
