@@ -149,7 +149,7 @@ class FormAuthToken extends AbstractToken
 				
 				if(array_key_exists(FormAuthenticationProvider::SESSION_GUARD, $data))
 				{
-					if((string)$data[FormAuthenticationProvider::SESSION_GUARD] === $guard)
+					if((string)$data[FormAuthenticationProvider::SESSION_GUARD] == $guard)
 					{
 						$this->guarded = true;
 					}

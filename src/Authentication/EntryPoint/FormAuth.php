@@ -57,12 +57,12 @@ class FormAuth implements EntryPointInterface
 		$data = (array)$session->get($this->auth->getKey(), NULL);
 		
 		// Save the current URI when it is not the login URI.
-		if($path !== $loginPath)
+		if($path !== $loginPath && !array_key_exists(FormAuthenticationProvider::SESSION_URI, $data))
 		{
 			$data[FormAuthenticationProvider::SESSION_URI] = (string)$request->getUri();
-			
-			$session->set($this->auth->getKey(), $data);
 		}
+		
+		$session->set($this->auth->getKey(), $data);
 		
 		$response->setStatus(Http::REDIRECT_TEMPORARY);
 		$response->setReason(Http::getReason(Http::REDIRECT_TEMPORARY));
