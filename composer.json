@@ -16,9 +16,9 @@
 	"minimum-stability" : "dev",
 	"require" : {
 		"php" : ">=5.5.0",
-		"koolkode/http" : "dev-master",
-		"koolkode/session" : "dev-master",
-		"koolkode/util" : "dev-master"
+		"koolkode/http" : "~0.1",
+		"koolkode/session" : "~0.1",
+		"koolkode/util" : "~0.1"
 	},
 	"require-dev" : {
 		"phpunit/phpunit" : "4.*"
@@ -29,8 +29,13 @@
 		}
 	},
 	"autoload-dev" : {
-        "psr-4" : {
-            "KoolKode\\Security\\" : "test/src/"
-        }
-    }
+		"psr-4" : {
+			"KoolKode\\Security\\" : "test/src/"
+		}
+	},
+	"extra" : {
+		"branch-alias" : {
+			"dev-master" : "0.1.x-dev"
+		}
+	}
 }
