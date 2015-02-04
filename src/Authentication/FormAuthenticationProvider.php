@@ -21,6 +21,7 @@ use KoolKode\Security\Authentication\Token\FormAuthToken;
 use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\PrincipalProviderInterface;
 use KoolKode\Security\SecurityContextInterface;
+use KoolKode\Security\SecurityException;
 use KoolKode\Util\RandomGeneratorInterface;
 
 /**

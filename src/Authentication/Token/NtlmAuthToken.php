@@ -347,7 +347,7 @@ class NtlmAuthToken extends AbstractToken
 	
 	public function getChallengeMessage($challenge)
 	{
-		$cflags = (int)$this->readUnsignedLong($this->auth, 12);
+// 		$cflags = (int)$this->readUnsignedLong($this->auth, 12);
 		
 		$cdomain = $this->readSecurityBuffer($this->auth, 16);
 		$ctarget = $this->readSecurityBuffer($this->auth, 24);
@@ -464,7 +464,7 @@ class NtlmAuthToken extends AbstractToken
 	protected function readSecurityBuffer($input, $offset, $decodeUtf16 = true)
 	{
 		$len = (int)$this->readUnsignedShort($input, $offset);
-		$alloc = (int)$this->readUnsignedShort($input, $offset + 2);
+// 		$alloc = (int)$this->readUnsignedShort($input, $offset + 2);
 		$off = (int)$this->readUnsignedLong($input, $offset + 4);
 		
 		$result = substr($input, $off, $len);

@@ -274,6 +274,7 @@ class HttpDigestToken extends AbstractToken
 			'nc' => true
 		];
 	
+		$tmp = [];
 		$data = [];
 	
 		@preg_match_all("'(\w+)\s*=\s*(?:(?:\"((?:(?<!\\\\)[^\"])+)\")|([^,]+),)'U", $digest, $tmp, PREG_SET_ORDER);

@@ -12,6 +12,7 @@
 namespace KoolKode\Security\Authentication\Token;
 
 use KoolKode\Security\PrincipalInterface;
+use KoolKode\Security\SecurityException;
 
 /**
  * @author Martin Schröder
@@ -41,12 +42,9 @@ abstract class AbstractToken implements TokenInterface
 			case self::WRONG_CREDENTIALS:
 			case self::AUTHENTICATION_SUCCESSFUL:
 			case self::AUTHENTICATION_NEEDED:
-				
 				$this->status = (int)$status;
-				
-			break;
+				break;
 			default:
-				
 				throw new SecurityException('Invalid authentication token status: ' . $status);
 		}
 	}
