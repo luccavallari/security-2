@@ -13,7 +13,7 @@
 			"email" : "m.schroeder2007@gmail.com"
 		}
 	],
-	"minimum-stability" : "dev",
+	"minimum-stability" : "stable",
 	"require" : {
 		"php" : ">=5.5.0",
 		"koolkode/http" : "~0.1",
@@ -21,11 +21,10 @@
 		"koolkode/util" : "~0.1"
 	},
 	"require-dev" : {
-		"phpunit/phpunit" : "~4.4@stable",
-		"ext-mcrypt" : "*"
+		"phpunit/phpunit" : "~4.7"
 	},
 	"suggest" : {
-	    "ext-mcrypt" : "Allows for encryption / decryption of HMAC-signed messages"
+		"ext-mcrypt" : "Allows for encryption / decryption of HMAC-signed messages"
 	},
 	"autoload" : {
 		"psr-4" : {
