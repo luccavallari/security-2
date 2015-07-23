@@ -1,4 +1,0 @@
-# Exclude everything inside vendor from version control.
-
-*
-!.gitignore
