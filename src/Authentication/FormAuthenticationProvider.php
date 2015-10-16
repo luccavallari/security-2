@@ -19,10 +19,8 @@ use KoolKode\Security\AnonymousPrincipal;
 use KoolKode\Security\Authentication\EntryPoint\FormAuth;
 use KoolKode\Security\Authentication\Token\FormAuthToken;
 use KoolKode\Security\Authentication\Token\TokenInterface;
-use KoolKode\Security\PrincipalProviderInterface;
 use KoolKode\Security\SecurityContextInterface;
 use KoolKode\Security\SecurityException;
-use KoolKode\Util\RandomGeneratorInterface;
 
 /**
  * @author Martin Schröder
@@ -44,8 +42,6 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 	protected $failedLogin = false;
 	
 	protected $guardByteCount = 16;
-	
-	protected $guardStrength = RandomGeneratorInterface::STRENGTH_MEDIUM;
 	
 	public function getKey()
 	{
@@ -87,11 +83,6 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 		$this->guardByteCount = max(4, (int)$byteCount);
 	}
 	
-	public function setGuardStrength($strength)
-	{
-		$this->guardStrength = max(RandomGeneratorInterface::STRENGTH_LOW, (int)$strength);
-	}
-	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -124,7 +115,7 @@ abstract class FormAuthenticationProvider extends AbstractAuthenticationProvider
 		
 		$this->failedLogin = false;
 		$this->username = $token->getUsername();
-		$this->guard = $context->getRandomGenerator()->generateHexString($this->guardByteCount, $this->guardStrength);
+		$this->guard = bin2hex(random_bytes($this->guardByteCount));
 		
 		$path = trim($request->getUri()->getPath(false), '/');
 		$loginPath = trim((new Uri($this->getLoginUri()))->getPath(false), '/');

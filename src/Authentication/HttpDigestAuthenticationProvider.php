@@ -15,10 +15,8 @@ use KoolKode\Http\HttpRequest;
 use KoolKode\Security\Authentication\EntryPoint\HttpDigest;
 use KoolKode\Security\Authentication\Token\TokenInterface;
 use KoolKode\Security\Authentication\Token\HttpDigestToken;
-use KoolKode\Security\DigestPrincipalProviderInterface;
 use KoolKode\Security\SecurityException;
 use KoolKode\Security\SecurityContextInterface;
-use KoolKode\Util\RandomGeneratorInterface;
 
 /**
  * @author Martin Schröder
@@ -44,8 +42,6 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 	protected $qop = self::QOP_AUTH;
 	
 	protected $nonceByteCount = 16;
-	
-	protected $nonceStrength = RandomGeneratorInterface::STRENGTH_LOW;
 	
 	protected $nonceTracker;
 	
@@ -105,11 +101,6 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 		$this->nonceByteCount = max(4, (int)$count);
 	}
 	
-	public function setNonceStrength($strength)
-	{
-		$this->nonceStrength = max(RandomGeneratorInterface::STRENGTH_LOW, (int)$strength);
-	}
-	
 	/**
 	 * @return NonceTrackerInterface
 	 */
@@ -125,7 +116,7 @@ abstract class HttpDigestAuthenticationProvider extends AbstractAuthenticationPr
 	{
 		if($this->nonceTracker === NULL)
 		{
-			return $context->getRandomGenerator()->generateHexString($this->nonceByteCount, $this->nonceStrength);
+			return bin2hex(random_bytes($this->nonceByteCount));
 		}
 		
 		$this->nonceTracker->initializeTracker();

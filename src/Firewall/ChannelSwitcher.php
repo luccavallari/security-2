@@ -14,7 +14,6 @@ namespace KoolKode\Security\Firewall;
 use KoolKode\Http\Http;
 use KoolKode\Http\HttpRequest;
 use KoolKode\Http\HttpResponse;
-use KoolKode\Http\UriBuilder;
 use KoolKode\Security\Firewall\RequestInterceptorInterface;
 
 /**

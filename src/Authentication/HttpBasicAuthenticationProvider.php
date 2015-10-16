@@ -15,7 +15,6 @@ use KoolKode\Http\HttpRequest;
 use KoolKode\Security\Authentication\EntryPoint\HttpBasic;
 use KoolKode\Security\Authentication\Token\HttpBasicToken;
 use KoolKode\Security\Authentication\Token\TokenInterface;
-use KoolKode\Security\PrincipalProviderInterface;
 use KoolKode\Security\SecurityException;
 use KoolKode\Security\SecurityContextInterface;
 

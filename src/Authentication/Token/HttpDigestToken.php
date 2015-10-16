@@ -15,7 +15,6 @@ use KoolKode\Http\Entity\StreamEntity;
 use KoolKode\Http\HttpRequest;
 use KoolKode\Security\Authentication\HttpDigestAuthenticationProvider;
 use KoolKode\Security\SecurityContextInterface;
-use KoolKode\Security\SecurityException;
 use KoolKode\Security\SecurityUtil;
 
 /**

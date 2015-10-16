@@ -12,7 +12,6 @@
 namespace KoolKode\Security;
 
 use KoolKode\Session\SessionInterface;
-use KoolKode\Util\RandomGeneratorInterface;
 
 /**
  * Provides covenient access to components of the security system.
@@ -35,11 +34,4 @@ interface SecurityContextInterface
 	 * @return PrincipalInterface
 	 */
 	public function getPrincipal();
-	
-	/**
-	 * Get a random generator to be used in creating nonces etc.
-	 * 
-	 * @return RandomGeneratorInterface
-	 */
-	public function getRandomGenerator();
 }

@@ -90,7 +90,7 @@ class Cipher {
         $blockSize = mcrypt_get_block_size($calgo, $cmode);
         $hmacSize = strlen(hash_hmac($malgo, '', 'foo-key', true));
         
-        $iv = openssl_random_pseudo_bytes($size);
+        $iv = random_bytes($size);
         $key = $this->computeCipherKey($this->config->getCipherKey(), $keySize, $iv);
         
         // PKCS7 Padding
